@@ -25,4 +25,29 @@ public class MovieService {
         em.persist(movie);
         em.getTransaction().commit();
     }
+
+    public Movie getMovie(Long movieId) {
+        Movie movie = em.find(Movie.class, movieId);
+        em.detach(movie);
+        return movie;
+    }
+
+    public Movie mergeMovie(Long movieId, Movie from) {
+        Movie movieOld = getMovie(movieId);
+        em.detach(movieOld);
+        movieOld.copyFrom(from);
+        em.getTransaction().begin();
+        em.merge(movieOld);
+        em.getTransaction().commit();
+        return movieOld;
+    }
+
+    public void removeMovie(Long movieId) {
+        em.getTransaction().begin();
+        Movie movie = em.find(Movie.class, movieId);
+        em.remove(movie);
+        System.out.println(em.getTransaction().isActive());
+        em.getTransaction().commit();
+        System.out.println(em.getTransaction().isActive());
+    }
 }

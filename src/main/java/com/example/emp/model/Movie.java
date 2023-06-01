@@ -17,12 +17,19 @@ public class Movie {
 
     @Id
     private Long id;
-
     private String movieName;
-
     private Integer releaseYear;
-
     private String language;
 
-    // standard constructor, getters, setters
+    public Movie(String movieName, Integer releaseYear, String language) {
+        this.movieName = movieName;
+        this.releaseYear = releaseYear;
+        this.language = language;
+    }
+
+    public void copyFrom(Movie from){
+        this.movieName = from.getMovieName();
+        this.releaseYear = from.getReleaseYear();
+        this.language = from.getLanguage();
+    }
 }
